@@ -22,9 +22,10 @@ ifneq ($(filter true, $(BOARD_MESA3D_BUILD_LIBGBM)),)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
-    gbm_mesa_wrapper.c    \
+    gbm_mesa_wrapper.cpp  \
 
 LOCAL_SHARED_LIBRARIES := \
+    libcutils             \
     libdrm                \
     libgbm_mesa           \
     liblog                \
