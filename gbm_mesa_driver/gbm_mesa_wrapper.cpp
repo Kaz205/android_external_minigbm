@@ -128,14 +128,9 @@ static int gbm_mesa_alloc(struct alloc_args *args)
 	if (args->use_scanout)
 		usage |= GBM_BO_USE_SCANOUT;
 
-	std::vector<uint64_t> modifiers = get_supported_modifiers(args->gbm, args->drm_format);
+	const std::vector<uint64_t> modifiers = get_supported_modifiers(args->gbm, args->drm_format);
 	if (modifiers.size() > 0) {
-		int usage2 = usage;
-		if (usage2 & GBM_BO_USE_LINEAR) {
-			usage2 &= ~GBM_BO_USE_LINEAR;
-			modifiers = {DRM_FORMAT_MOD_LINEAR};
-		}
-		bo = gbm_bo_create_with_modifiers2(args->gbm, args->width, args->height, gbm_format, modifiers.data(), modifiers.size(), usage2);
+		bo = gbm_bo_create_with_modifiers2(args->gbm, args->width, args->height, gbm_format, modifiers.data(), modifiers.size(), usage);
 	}
 	if (!bo) {
 		ALOGV("fallback to gbm_bo_create without modifiers");
